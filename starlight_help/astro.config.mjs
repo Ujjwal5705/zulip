@@ -1,12 +1,16 @@
+// @ts-check
+
 import * as fs from "node:fs";
 
 import starlight from "@astrojs/starlight";
 import {defineConfig, envField} from "astro/config";
+import compressor from "astro-compressor";
 import Icons from "unplugin-icons/vite";
 
 // https://astro.build/config
 export default defineConfig({
     base: "help",
+    trailingSlash: "never",
     vite: {
         plugins: [
             // eslint-disable-next-line new-cap
@@ -71,6 +75,11 @@ export default defineConfig({
         },
     },
     integrations: [
+        compressor({
+            gzip: true,
+            brotli: false,
+            zstd: false,
+        }),
         starlight({
             title: "Zulip help center",
             favicon: "../static/images/favicon.svg",
